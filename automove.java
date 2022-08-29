@@ -2,6 +2,9 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.Calendar;
 
+//import java.awt.PointerInfo;
+//import java.awt.MouseInfo;
+
 public class automove {
     final static int MILLITOSECCALC = 60000;// 60*1000
 
@@ -23,18 +26,20 @@ public class automove {
     // keyboard keypress, keyrelease (ctrl)
     private static void shiftAction() throws AWTException {
         Robot robot = new Robot();
-
+        //PointerInfo info;
+        //key press
         robot.keyPress(17);
         robot.keyRelease(17);
 
         // mouse move
-        // robot.mouseMove(info.getLocation().x+1, info.getLocation().y+1);
+        //info = MouseInfo.getPointerInfo();
+        //robot.mouseMove(info.getLocation().x+1, info.getLocation().y+1);
     }
 
     //weekend check
     private boolean CalendarCheckWeekend() {
         Calendar cal = Calendar.getInstance();
-        if ((cal.DAY_OF_WEEK == 1) || (cal.DAY_OF_WEEK == 7)) {
+        if ((cal.get(Calendar.DAY_OF_WEEK) == 1) || (cal.get(Calendar.DAY_OF_WEEK) == 7)) {
             return true;
         }
         return false;
@@ -57,7 +62,9 @@ public class automove {
                 } else if (hour < 18) {// before 18 O'clock 2 minute
                     return 2 * MILLITOSECCALC;
                 } else {
-                    return 0;
+                    // after 18 O'clock 09 O'clock
+                    hour = 24 - hour + 9;
+                    return hour * 60 * MILLITOSECCALC;
                 }
             } else if (hour < 18) {
                 // before 18 O'clock 2minute
